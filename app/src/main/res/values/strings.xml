@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Osso</string>
+    <string name="app_moto">Rent books and read</string>
+
+    <string name="home_page_rented_books_text">Rented Books</string>
+    <string name="home_page_available_books_text">Available Books</string>
+    <string name="home_page_most_rented_books_text">Most Rented Books</string>
+
+</resources>
