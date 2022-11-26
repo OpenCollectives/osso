@@ -6,4 +6,6 @@
     <string name="home_page_available_books_text">Available Books</string>
     <string name="home_page_most_rented_books_text">Most Rented Books</string>
 
+    <string name="see_all_button_text">See All</string>
+
 </resources>
