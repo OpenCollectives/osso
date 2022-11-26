@@ -11,21 +11,70 @@
         android:layout_height="wrap_content"
         android:id="@+id/home_page_rented_books_container"
         android:orientation="vertical"
+        android:padding="10dp"
         >
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/home_page_rented_books_text"
-            android:textStyle="bold"
-            android:textColor="#0f0f0f"
-            />
-
-        <ListView
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/home_page_rented_books_text"
+                android:textStyle="bold"
+                android:textColor="#0f0f0f"
+                />
+
+            <include
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                layout="@layout/see_all_link_button"
+                android:id="@+id/home_page_rented_books_see_all"
+                android:layout_alignParentEnd="true"
+                />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="5dp"
+            android:visibility="gone"
+            android:id="@+id/home_page_no_rented_books_message_container"
+            >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/book_stack_32"
+                android:layout_gravity="center_horizontal"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="You do not have any books rented!"
+                />
+
+        </LinearLayout>
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/home_page_rented_books_progress_bar"
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
             android:id="@+id/home_page_rented_books_list"
-            android:listSelector="@color/default_list_item_select_bg_color"
+
             />
 
     </LinearLayout>
@@ -33,31 +82,46 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/home_page_all_books_list_container"
         android:orientation="vertical"
-        android:id="@+id/home_page_available_books_container"
+        android:padding="10dp"
         >
 
-        <TextView
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="All available books"
+                android:textStyle="bold"
+                android:textColor="#0f0f0f"
+                />
+
+            <include
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                layout="@layout/see_all_link_button"
+                android:layout_alignParentEnd="true"
+                android:id="@+id/home_page_all_books_see_all"
+                />
+
+        </RelativeLayout>
+
+        <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/home_page_available_books_text"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/home_page_all_books_progress_bar"
             />
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:id="@+id/home_page_most_rented_books_container"
-        >
-
-        <TextView
-            android:layout_width="wrap_content"
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/home_page_most_rented_books_text"
+            android:orientation="horizontal"
+            android:id="@+id/home_page_all_books_list"
             />
-
     </LinearLayout>
-
 </LinearLayout>
