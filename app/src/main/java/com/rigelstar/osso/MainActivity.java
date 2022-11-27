@@ -6,17 +6,19 @@ import android.os.Bundle;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.rigelstar.osso.net.FetchBooksTask;
 import com.rigelstar.osso.ui.RecyclerViewSpacingItemDecorator;
 import com.rigelstar.osso.model.Book;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity
@@ -47,26 +49,26 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onStart() {
         super.onStart();
-
         rentedBooksProgressBar.setVisibility(View.VISIBLE);
         allBooksProgressBar.setVisibility(View.VISIBLE);
 
-        List<Book> allBooks = new ArrayList<Book>()
-        {{
-            add(new Book("Karnali Blues", "Buddhisagar"));
-            add(new Book("Arki Aaimaai", "Nilam Karki"));
-        }};
+        FetchBooksTask fetchAllBooksTask = new FetchBooksTask((books) -> {
+            allBooksList.setAdapter(new DefaultBookListAdapter(books));
+            allBooksProgressBar.setVisibility(View.GONE);
+        }, new FetchBooksTask.StringToBookListConverter());
+        fetchAllBooksTask.execute("http://10.0.2.2:5000/books?&access_token=12&content_type=json");
 
-        List<Book> rentedBooks = new ArrayList<Book>()
-        {{
-            add(new Book("Priya Sufi", "Subin Bhattarai"));
-        }};
+        FetchBooksTask fetchRentedBooksTask = new FetchBooksTask((books) -> {
+            rentedBooksList.setAdapter(new DefaultBookListAdapter((books)));
+            rentedBooksProgressBar.setVisibility(View.GONE);
 
-        allBooksList.setAdapter(new DefaultBookListAdapter(allBooks));
-        rentedBooksList.setAdapter(new DefaultBookListAdapter(rentedBooks));
-
-        rentedBooksProgressBar.setVisibility(View.GONE);
-        allBooksProgressBar.setVisibility(View.GONE);
+            if(books.size() == 0)
+            {
+                LinearLayout noRentedBooksMessage = findViewById(R.id.home_page_no_rented_books_message_container);
+                noRentedBooksMessage.setVisibility(View.VISIBLE);
+            }
+        }, new FetchBooksTask.StringToBookListConverter());
+        fetchRentedBooksTask.execute("http://10.0.2.2:5000/rented-books?user_id=6380869d6fca88af4832b231&access_token=12&content_type=json");
     }
 }
 
