@@ -2,7 +2,6 @@ package com.rigelstar.osso;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.os.Bundle;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -11,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -23,11 +21,35 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity
 {
+    private RecyclerView allBooksList;
+    private RecyclerView rentedBooksList;
+
+    private ProgressBar allBooksProgressBar;
+    private ProgressBar rentedBooksProgressBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        allBooksList = findViewById(R.id.home_page_all_books_list);
+        allBooksList.addItemDecoration(new RecyclerViewSpacingItemDecorator(10, RecyclerViewSpacingItemDecorator.HORIZONTAL));
+        allBooksList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        allBooksProgressBar = findViewById(R.id.home_page_all_books_progress_bar);
+
+        rentedBooksList = findViewById(R.id.home_page_rented_books_list);
+        rentedBooksList.addItemDecoration(new RecyclerViewSpacingItemDecorator(10, RecyclerViewSpacingItemDecorator.HORIZONTAL));
+        rentedBooksList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        rentedBooksProgressBar = findViewById(R.id.home_page_rented_books_progress_bar);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        rentedBooksProgressBar.setVisibility(View.VISIBLE);
+        allBooksProgressBar.setVisibility(View.VISIBLE);
 
         List<Book> allBooks = new ArrayList<Book>()
         {{
@@ -40,41 +62,21 @@ public class MainActivity extends AppCompatActivity
             add(new Book("Priya Sufi", "Subin Bhattarai"));
         }};
 
-        RecyclerView allBooksList = findViewById(R.id.home_page_all_books_list);
-        DefaultBookListAdapter allBookListAdapter = new DefaultBookListAdapter(this, allBooks);
-        allBooksList.addItemDecoration(new RecyclerViewSpacingItemDecorator(10, RecyclerViewSpacingItemDecorator.HORIZONTAL));
-        allBooksList.setAdapter(allBookListAdapter);
-        allBooksList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        allBooksList.setAdapter(new DefaultBookListAdapter(allBooks));
+        rentedBooksList.setAdapter(new DefaultBookListAdapter(rentedBooks));
 
-        if(rentedBooks.size() == 0)
-        {
-            LinearLayout noRentedBooksLayout = findViewById(R.id.home_page_no_rented_books_message_container);
-            noRentedBooksLayout.setVisibility(View.VISIBLE);
-        }
-
-        ProgressBar allBooksProgressBar = findViewById(R.id.home_page_all_books_progress_bar);
-        allBooksProgressBar.setVisibility(View.GONE);
-
-        RecyclerView rentedBooksList = findViewById(R.id.home_page_rented_books_list);
-        DefaultBookListAdapter rentedBookListAdapter = new DefaultBookListAdapter(this, rentedBooks);
-        rentedBooksList.addItemDecoration(new RecyclerViewSpacingItemDecorator(10, RecyclerViewSpacingItemDecorator.HORIZONTAL));
-        rentedBooksList.setAdapter(rentedBookListAdapter);
-        rentedBooksList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-
-        ProgressBar rentedBooksProgressBar = findViewById(R.id.home_page_rented_books_progress_bar);
         rentedBooksProgressBar.setVisibility(View.GONE);
+        allBooksProgressBar.setVisibility(View.GONE);
     }
 }
 
 class DefaultBookListAdapter extends RecyclerView.Adapter<DefaultBookListAdapter.BookViewHolder>
 {
     private final List<Book> books;
-    private final Context context;
 
-    public DefaultBookListAdapter(Context context, List<Book> books)
+    public DefaultBookListAdapter(List<Book> books)
     {
         this.books = books;
-        this.context = context;
     }
 
     public static class BookViewHolder extends RecyclerView.ViewHolder
