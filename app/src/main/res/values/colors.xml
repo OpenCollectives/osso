@@ -10,4 +10,6 @@
 
     <color name="default_list_item_select_bg_color">#EFEFEF</color>
     <color name="see_all_button_text_color">#39A6FD</color>
+
+    <color name="app_theme_color">#00AA00</color>
 </resources>
