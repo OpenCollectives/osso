@@ -7,4 +7,4 @@
     android:textColor="@color/see_all_button_text_color"
     android:textStyle="bold"
     android:drawableEnd="@drawable/ic_arrow_forward_24"
-    /
+    />
